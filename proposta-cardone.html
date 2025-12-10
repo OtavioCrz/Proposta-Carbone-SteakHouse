@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Comercial - Carbone SteakHouse</title>
+    
+    <!-- Tailwind CSS (Framework de Estilo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons (Ícones) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts (Fontes Premium) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Configuração do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Cinzel', 'serif'],
+                    },
+                    colors: {
+                        stone: {
+                            950: '#0c0a09',
+                            900: '#1c1917',
+                            200: '#e7e5e4',
+                        },
+                        amber: {
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Específico para Impressão e PDF */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            @page {
+                margin: 0;
+                size: auto;
+            }
+            /* Ocultar elementos de UI na impressão */
+            .no-print {
+                display: none !important;
+            }
+            /* Força visualização dos slides como páginas A4 */
+            .print-slide {
+                display: flex !important;
+                width: 100% !important;
+                page-break-after: always; /* Quebra de página após cada slide */
+                flex-direction: column;
+                justify-content: center;
+                margin-bottom: 0 !important;
+            }
+            /* Último slide não quebra página depois */
+            .print-slide:last-child {
+                page-break-after: auto;
+            }
+            
+            /* Força cores escuras na impressão (Crucial para PDF) */
+            .print-dark-bg {
+                background-color: #0c0a09 !important;
+                color: #e7e5e4 !important;
+            }
+            .print-card-bg { background-color: #1c1917 !important; }
+            /* Ajustes de opacidade para texturas na impressão */
+            .print-texture {
+                opacity: 0.4 !important;
+                mix-blend-mode: multiply !important;
+            }
+            /* Forçar cores de texto */
+            .print-text-white { color: #ffffff !important; }
+            .print-text-amber { color: #d97706 !important; }
+            .print-text-stone { color: #d6d3d1 !important; }
+            .print-border-stone { border-color: #44403c !important; }
+        }
+
+        /* Animação suave de entrada */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-stone-950 text-stone-200 font-sans selection:bg-amber-900 selection:text-white pb-12 print:pb-0">
+
+    <!-- Botão de Download / Print (Fixo no topo) -->
+    <div class="fixed top-6 right-6 z-50 no-print flex flex-col items-end gap-2">
+        <button onclick="handlePrint()" class="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-full font-medium shadow-lg transition-all transform hover:scale-105 active:scale-95 cursor-pointer">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>Baixar PDF</span>
+        </button>
+        
+        <!-- Dica flutuante -->
+        <div id="printHint" class="hidden bg-stone-900 text-stone-300 text-xs p-3 rounded-lg border border-stone-700 shadow-xl max-w-[200px] fade-in">
+            <div class="flex items-start gap-2">
+                <i data-lucide="info" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i>
+                <p>Se a janela não abrir, pressione <strong>Ctrl + P</strong>. Marque "Gráficos de segundo plano".</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegação entre Abas (Fixo Embaixo) -->
+    <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-stone-900/90 backdrop-blur px-6 py-3 rounded-full border border-stone-700 shadow-2xl flex gap-4 no-print">
+        <button onclick="switchTab('cover')" id="btn-cover" class="px-4 py-1 rounded-full text-sm font-medium transition-all bg-amber-600 text-white hover:bg-amber-700">
+            Capa
+        </button>
+        <button onclick="switchTab('details')" id="btn-details" class="px-4 py-1 rounded-full text-sm font-medium transition-all text-stone-300 hover:bg-stone-800">
+            Proposta Detalhada
+        </button>
+    </div>
+
+    <!-- Container Principal do Conteúdo -->
+    <div class="max-w-4xl mx-auto pt-6 md:pt-10 px-4 sm:px-6 lg:px-8 print:p-0 print:max-w-none print:w-full">
+        
+        <!-- ================= SLIDE 1: CAPA ================= -->
+        <div id="tab-cover" class="print-slide block mb-8 fade-in">
+            <div class="print-dark-bg aspect-[3/4] md:aspect-[16/9] bg-gradient-to-br from-stone-900 to-stone-950 rounded-2xl shadow-2xl border border-amber-500/30 p-6 md:p-12 flex flex-col justify-between relative overflow-hidden">
+                
+                <!-- Texturas de Fundo -->
+                <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] print-texture pointer-events-none"></div>
+                <div class="absolute top-0 right-0 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 print:bg-amber-600/30 pointer-events-none"></div>
+
+                <!-- Cabeçalho da Capa -->
+                <div class="relative z-10 mt-4 md:mt-0 print:pt-10">
+                    <p class="text-amber-500 tracking-[0.3em] uppercase text-xs md:text-sm font-bold mb-2 md:mb-4 print-text-amber">Proposta Comercial</p>
+                    <h1 class="text-4xl md:text-7xl font-serif font-bold text-white mb-4 md:mb-6 leading-tight print-text-white">
+                        Carbone <br />
+                        <span class="text-amber-600 print-text-amber">SteakHouse</span>
+                    </h1>
+                    <div class="h-1 w-16 md:w-24 bg-amber-600 mb-4 md:mb-8"></div>
+                    <p class="text-lg md:text-2xl text-stone-300 max-w-lg font-light leading-relaxed print-text-stone">
+                        Elevando a sua presença digital ao mesmo nível da sua gastronomia.
+                    </p>
+                </div>
+
+                <!-- Grid de Benefícios -->
+                <div class="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-8 border-t border-stone-800 pt-6 print:pb-10 print:mb-auto print-border-stone">
+                    <div>
+                        <span class="block text-amber-500 font-bold text-lg md:text-xl print-text-amber">Premium</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Design</span>
+                    </div>
+                    <div>
+                        <span class="block text-amber-500 font-bold text-lg md:text-xl print-text-amber">SEO</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Otimizado</span>
+                    </div>
+                    <div>
+                        <span class="block text-amber-500 font-bold text-lg md:text-xl print-text-amber">Mobile</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Responsivo</span>
+                    </div>
+                    <div>
+                        <span class="block text-amber-500 font-bold text-lg md:text-xl print-text-amber">Rápido</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">Performance</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SLIDE 2: DETALHES ================= -->
+        <div id="tab-details" class="print-slide hidden mb-8 fade-in">
+            <div class="print-dark-bg min-h-[800px] bg-gradient-to-br from-stone-900 to-stone-950 rounded-2xl shadow-2xl border border-amber-500/30 p-6 md:p-12 relative overflow-hidden">
+                
+                <div class="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] print-texture pointer-events-none"></div>
+
+                <div class="relative z-10 print:pt-10">
+                    <!-- Título da Página de Detalhes -->
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-10 border-b border-stone-800 pb-6 print-border-stone">
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-serif text-white mb-2 print-text-white">Escopo do Projeto</h2>
+                            <p class="text-stone-400 text-sm">Desenvolvimento Web Full-Stack Premium</p>
+                        </div>
+                        <div class="mt-4 md:mt-0 flex items-center gap-2 px-4 py-2 bg-stone-900 rounded-lg border border-stone-700 print-card-bg print-border-stone">
+                            <i data-lucide="clock" class="w-4 h-4 text-amber-500 print-text-amber"></i>
+                            <span class="text-stone-300 font-mono text-sm">Prazo: <span class="text-white font-bold print-text-white">20 Dias Úteis</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Tecnologias -->
+                    <div class="mb-8 md:mb-10">
+                        <h3 class="text-amber-500 uppercase tracking-wider text-xs font-bold mb-4 print-text-amber">Tecnologias & Ferramentas Utilizadas</h3>
+                        <div class="flex flex-wrap gap-2 md:gap-3">
+                            <span class="px-3 py-1 bg-stone-900 border border-stone-700 rounded text-xs text-stone-300 print-card-bg print-border-stone">React.js</span>
+                            <span class="px-3 py-1 bg-stone-900 border border-stone-700 rounded text-xs text-stone-300 print-card-bg print-border-stone">Tailwind CSS</span>
+                            <span class="px-3 py-1 bg-stone-900 border border-stone-700 rounded text-xs text-stone-300 print-card-bg print-border-stone">Framer Motion</span>
+                            <span class="px-3 py-1 bg-stone-900 border border-stone-700 rounded text-xs text-stone-300 print-card-bg print-border-stone">SEO Google</span>
+                            <span class="px-3 py-1 bg-stone-900 border border-stone-700 rounded text-xs text-stone-300 print-card-bg print-border-stone">Vercel/Netlify</span>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Preços -->
+                    <div class="space-y-3 md:space-y-4 mb-8 md:mb-10">
+                        <!-- Serviço 1 -->
+                        <div class="group flex flex-col md:flex-row justify-between items-center p-4 rounded-lg bg-stone-900/50 hover:bg-stone-800 border border-transparent hover:border-amber-900 transition-all duration-300 print-card-bg print-border-stone">
+                            <div class="flex items-center gap-4 w-full md:w-auto mb-2 md:mb-0">
+                                <div class="p-2 bg-stone-950 rounded-full text-amber-600 group-hover:text-amber-400 print:bg-stone-950 print-text-amber">
+                                    <i data-lucide="layout" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-medium print-text-white">UI/UX Design & Prototipagem</h4>
+                                    <p class="text-xs text-stone-500 hidden md:block print:block">Design exclusivo focado na experiência do utilizador e identidade visual premium.</p>
+                                </div>
+                            </div>
+                            <div class="text-right w-full md:w-auto border-t md:border-t-0 border-stone-800 pt-2 md:pt-0 mt-2 md:mt-0">
+                                <span class="font-mono text-stone-300 print-text-stone">R$ 1.500,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Serviço 2 -->
+                        <div class="group flex flex-col md:flex-row justify-between items-center p-4 rounded-lg bg-stone-900/50 hover:bg-stone-800 border border-transparent hover:border-amber-900 transition-all duration-300 print-card-bg print-border-stone">
+                            <div class="flex items-center gap-4 w-full md:w-auto mb-2 md:mb-0">
+                                <div class="p-2 bg-stone-950 rounded-full text-amber-600 group-hover:text-amber-400 print:bg-stone-950 print-text-amber">
+                                    <i data-lucide="code" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-medium print-text-white">Desenvolvimento Front-end</h4>
+                                    <p class="text-xs text-stone-500 hidden md:block print:block">Codificação limpa, rápida e moderna usando React e Tailwind CSS.</p>
+                                </div>
+                            </div>
+                            <div class="text-right w-full md:w-auto border-t md:border-t-0 border-stone-800 pt-2 md:pt-0 mt-2 md:mt-0">
+                                <span class="font-mono text-stone-300 print-text-stone">R$ 1.800,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Serviço 3 -->
+                        <div class="group flex flex-col md:flex-row justify-between items-center p-4 rounded-lg bg-stone-900/50 hover:bg-stone-800 border border-transparent hover:border-amber-900 transition-all duration-300 print-card-bg print-border-stone">
+                            <div class="flex items-center gap-4 w-full md:w-auto mb-2 md:mb-0">
+                                <div class="p-2 bg-stone-950 rounded-full text-amber-600 group-hover:text-amber-400 print:bg-stone-950 print-text-amber">
+                                    <i data-lucide="smartphone" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-medium print-text-white">Responsividade (Mobile First)</h4>
+                                    <p class="text-xs text-stone-500 hidden md:block print:block">Adaptação perfeita para telemóveis, tablets e desktops.</p>
+                                </div>
+                            </div>
+                            <div class="text-right w-full md:w-auto border-t md:border-t-0 border-stone-800 pt-2 md:pt-0 mt-2 md:mt-0">
+                                <span class="font-mono text-stone-300 print-text-stone">R$ 800,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Serviço 4 -->
+                        <div class="group flex flex-col md:flex-row justify-between items-center p-4 rounded-lg bg-stone-900/50 hover:bg-stone-800 border border-transparent hover:border-amber-900 transition-all duration-300 print-card-bg print-border-stone">
+                            <div class="flex items-center gap-4 w-full md:w-auto mb-2 md:mb-0">
+                                <div class="p-2 bg-stone-950 rounded-full text-amber-600 group-hover:text-amber-400 print:bg-stone-950 print-text-amber">
+                                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-medium print-text-white">SEO Técnico & Performance</h4>
+                                    <p class="text-xs text-stone-500 hidden md:block print:block">Otimização para motores de busca e carregamento ultrarrápido.</p>
+                                </div>
+                            </div>
+                            <div class="text-right w-full md:w-auto border-t md:border-t-0 border-stone-800 pt-2 md:pt-0 mt-2 md:mt-0">
+                                <span class="font-mono text-stone-300 print-text-stone">R$ 800,00</span>
+                            </div>
+                        </div>
+
+                        <!-- Serviço 5 -->
+                        <div class="group flex flex-col md:flex-row justify-between items-center p-4 rounded-lg bg-stone-900/50 hover:bg-stone-800 border border-transparent hover:border-amber-900 transition-all duration-300 print-card-bg print-border-stone">
+                            <div class="flex items-center gap-4 w-full md:w-auto mb-2 md:mb-0">
+                                <div class="p-2 bg-stone-950 rounded-full text-amber-600 group-hover:text-amber-400 print:bg-stone-950 print-text-amber">
+                                    <i data-lucide="globe" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-medium print-text-white">Integrações & Configuração</h4>
+                                    <p class="text-xs text-stone-500 hidden md:block print:block">WhatsApp API, Maps, Domínio e Analytics.</p>
+                                </div>
+                            </div>
+                            <div class="text-right w-full md:w-auto border-t md:border-t-0 border-stone-800 pt-2 md:pt-0 mt-2 md:mt-0">
+                                <span class="font-mono text-stone-300 print-text-stone">R$ 400,00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé: Total e Manutenção -->
+                    <div class="flex flex-col md:flex-row gap-4 md:gap-6 print:gap-4">
+                        <!-- Card Total -->
+                        <div class="flex-1 bg-gradient-to-r from-amber-900/20 to-stone-900 border border-amber-500/30 p-6 rounded-xl flex justify-between items-center print-card-bg print-border-stone">
+                            <div>
+                                <span class="block text-sm text-amber-500 uppercase tracking-wider mb-1 print-text-amber">Investimento Único</span>
+                                <span class="text-2xl md:text-3xl font-serif text-white font-bold print-text-white">R$ 5.300,00</span>
+                                <span class="block text-xs text-stone-500 mt-1">Parcelamento disponível em até 3x</span>
+                            </div>
+                            <i data-lucide="check-circle" class="w-8 h-8 md:w-10 md:h-10 text-amber-600 opacity-50 print-text-amber"></i>
+                        </div>
+
+                        <!-- Card Manutenção -->
+                        <div class="flex-1 bg-stone-900 border border-stone-800 p-6 rounded-xl flex justify-between items-center print-card-bg print-border-stone">
+                            <div>
+                                <span class="block text-sm text-stone-400 uppercase tracking-wider mb-1">Manutenção Mensal (Opcional)</span>
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-xl md:text-2xl font-serif text-white print-text-white">R$ 300,00</span>
+                                    <span class="text-xs text-stone-500">/mês</span>
+                                </div>
+                                <span class="block text-xs text-stone-500 mt-1">Hospedagem + Suporte + Pequenos ajustes</span>
+                            </div>
+                            <i data-lucide="globe" class="w-6 h-6 md:w-8 md:h-8 text-stone-600 print-text-stone"></i>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé de Impressão (Fim do Documento) -->
+                    <div class="hidden print:block mt-8 text-center border-t border-stone-800 pt-4 print-border-stone print:mt-auto print:pb-4">
+                        <p class="text-stone-500 text-xs">Proposta válida por 15 dias. Documento gerado digitalmente.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts de Funcionalidade -->
+    <script>
+        // Inicializa os ícones do Lucide
+        lucide.createIcons();
+
+        // Lógica de Troca de Abas (Alterna entre Capa e Detalhes)
+        function switchTab(tabName) {
+            const cover = document.getElementById('tab-cover');
+            const details = document.getElementById('tab-details');
+            const btnCover = document.getElementById('btn-cover');
+            const btnDetails = document.getElementById('btn-details');
+
+            if (tabName === 'cover') {
+                cover.classList.remove('hidden');
+                details.classList.add('hidden');
+                
+                // Estilo Botão Ativo
+                btnCover.classList.add('bg-amber-600', 'text-white');
+                btnCover.classList.remove('text-stone-300');
+                
+                // Estilo Botão Inativo
+                btnDetails.classList.remove('bg-amber-600', 'text-white');
+                btnDetails.classList.add('text-stone-300');
+            } else {
+                cover.classList.add('hidden');
+                details.classList.remove('hidden');
+
+                // Estilo Botão Ativo
+                btnDetails.classList.add('bg-amber-600', 'text-white');
+                btnDetails.classList.remove('text-stone-300');
+
+                // Estilo Botão Inativo
+                btnCover.classList.remove('bg-amber-600', 'text-white');
+                btnCover.classList.add('text-stone-300');
+            }
+        }
+
+        // Lógica de Impressão (Dispara o diálogo do navegador)
+        function handlePrint() {
+            const cover = document.getElementById('tab-cover');
+            const details = document.getElementById('tab-details');
+            const hint = document.getElementById('printHint');
+
+            // Garantir que todas as páginas apareçam no PDF
+            const wasCoverHidden = cover.classList.contains('hidden');
+            const wasDetailsHidden = details.classList.contains('hidden');
+            cover.classList.remove('hidden');
+            details.classList.remove('hidden');
+
+            const cleanup = () => {
+                if (wasCoverHidden) cover.classList.add('hidden');
+                if (wasDetailsHidden) details.classList.add('hidden');
+                hint.classList.add('hidden');
+                window.removeEventListener('afterprint', cleanup);
+            };
+            window.addEventListener('afterprint', cleanup);
+
+            try {
+                if (window.focus) window.focus();
+                // Timeout curto ajuda o browser a aplicar as alterações antes do print
+                setTimeout(() => window.print(), 50);
+            } catch (e) {
+                console.error("Erro ao imprimir:", e);
+            }
+
+            // Mostra dica caso a janela não abra automaticamente
+            hint.classList.remove('hidden');
+            setTimeout(() => {
+                hint.classList.add('hidden');
+            }, 8000);
+        }
+    </script>
+</body>
+</html>
